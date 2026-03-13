@@ -481,7 +481,7 @@ async function buscar(offset = 0) {
   params.set('q', q);
   params.set('count', PAGE_SIZE);
   params.set('start', offset);
-  params.set('accessToken', currentToken);
+  params.set('access_token', currentToken);
 
   lastQuery = { surname, givenName, birthPlace, yearFrom, yearTo, fatherSurname, motherSurname, sex };
 
@@ -497,7 +497,10 @@ async function buscar(offset = 0) {
 
   try {
     const res = await fetch(url, {
-      headers: { 'Accept': 'application/x-gedcomx-v1+json' }
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${currentToken}`
+      }
     });
 
     if (res.status === 204) {
