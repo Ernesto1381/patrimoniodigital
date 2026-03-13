@@ -304,14 +304,14 @@ async function buscar(offset = 0) {
   const motherSurname = document.getElementById('motherSurname').value.trim();
   const sex           = document.getElementById('sex').value;
 
-  // Formato clásico: q=surname:X+givenName:Y
-  let qVal = `surname:${surname}`;
-  if(givenName)      qVal += `+givenName:${givenName}`;
-  if(yearFrom)       qVal += `+birthLikeDate:from%2B${yearFrom}`;
-  if(yearTo)         qVal += `+birthLikeDate:to%2B${yearTo}`;
-  if(fatherSurname)  qVal += `+fatherSurname:${fatherSurname}`;
-  if(motherSurname)  qVal += `+motherSurname:${motherSurname}`;
-  let q = `q=${qVal}&count=${PAGE_SIZE}&start=${offset}&access_token=${token}`;
+  // Formato correcto según API beta: q.surname=X&q.givenName=Y
+  let q = `q.surname=${encodeURIComponent(surname)}`;
+  if(givenName)      q += `&q.givenName=${encodeURIComponent(givenName)}`;
+  if(yearFrom)       q += `&q.birthLikeDate.from=%2B${yearFrom}`;
+  if(yearTo)         q += `&q.birthLikeDate.to=%2B${yearTo}`;
+  if(fatherSurname)  q += `&q.fatherSurname=${encodeURIComponent(fatherSurname)}`;
+  if(motherSurname)  q += `&q.motherSurname=${encodeURIComponent(motherSurname)}`;
+  q += `&count=${PAGE_SIZE}&start=${offset}&access_token=${token}`;
 
   const url = `${FS_API}/platform/tree/search?${q}`;
   const log = document.getElementById('reqLog');
@@ -338,7 +338,7 @@ async function buscar(offset = 0) {
     if(res.status === 429) { setState('error','Demasiadas solicitudes','Espera unos segundos e intenta de nuevo.'); return; }
     if(!res.ok) {
       const txt = await res.text().catch(()=>'');
-      setState('error', `Error ${res.status}`, txt.substring(0,300)||'Revisa los parámetros.');
+      setState('error', `Error ${res.status}`, txt||'Revisa los parámetros.');
       return;
     }
 
