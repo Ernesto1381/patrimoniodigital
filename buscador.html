@@ -304,17 +304,14 @@ async function buscar(offset = 0) {
   const motherSurname = document.getElementById('motherSurname').value.trim();
   const sex           = document.getElementById('sex').value;
 
-  let q = `q.surname=${encodeURIComponent(surname)}`;
-  if(givenName)      q += `&q.givenName=${encodeURIComponent(givenName)}`;
-  // birthLikePlace requiere ID numérico de FamilySearch Places — se omite por ahora
-  // if(birthPlace)  q += `&q.birthLikePlace=...`;
-  if(yearFrom)       q += `&q.birthLikeDate.from=%2B${yearFrom}`;
-  if(yearTo)         q += `&q.birthLikeDate.to=%2B${yearTo}`;
-  if(fatherSurname)  q += `&q.fatherSurname=${encodeURIComponent(fatherSurname)}`;
-  if(motherSurname)  q += `&q.motherSurname=${encodeURIComponent(motherSurname)}`;
-  // sex no es un parámetro válido de búsqueda — se omite
-  // if(sex)         q += `&q.sex=${sex}`;
-  q += `&count=${PAGE_SIZE}&start=${offset}&access_token=${token}`;
+  // Formato clásico: q=surname:X+givenName:Y
+  let qVal = `surname:${surname}`;
+  if(givenName)      qVal += `+givenName:${givenName}`;
+  if(yearFrom)       qVal += `+birthLikeDate:from%2B${yearFrom}`;
+  if(yearTo)         qVal += `+birthLikeDate:to%2B${yearTo}`;
+  if(fatherSurname)  qVal += `+fatherSurname:${fatherSurname}`;
+  if(motherSurname)  qVal += `+motherSurname:${motherSurname}`;
+  let q = `q=${qVal}&count=${PAGE_SIZE}&start=${offset}&access_token=${token}`;
 
   const url = `${FS_API}/platform/tree/search?${q}`;
   const log = document.getElementById('reqLog');
