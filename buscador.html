@@ -459,33 +459,29 @@ async function buscar(offset = 0) {
 
   currentOffset = offset;
 
-  // Construir parámetros
-  const params = new URLSearchParams();
-  let q = `surname:${surname}`;
-  const givenName   = document.getElementById('givenName').value.trim();
-  const birthPlace  = document.getElementById('birthPlace').value;
-  const yearFrom    = document.getElementById('yearFrom').value;
-  const yearTo      = document.getElementById('yearTo').value;
+  // Construir parámetros según formato oficial q.surname=X&q.givenName=Y
+  const givenName     = document.getElementById('givenName').value.trim();
+  const birthPlace    = document.getElementById('birthPlace').value;
+  const yearFrom      = document.getElementById('yearFrom').value;
+  const yearTo        = document.getElementById('yearTo').value;
   const fatherSurname = document.getElementById('fatherSurname').value.trim();
   const motherSurname = document.getElementById('motherSurname').value.trim();
-  const sex         = document.getElementById('sex').value;
+  const sex           = document.getElementById('sex').value;
 
-  if (givenName)      q += ` givenName:${givenName}`;
-  if (birthPlace)     q += ` birthLikePlace:${birthPlace}`;
-  if (yearFrom)       q += ` birthLikeDate:from+${yearFrom}`;
-  if (yearTo)         q += ` birthLikeDate:to+${yearTo}`;
-  if (fatherSurname)  q += ` fatherSurname:${fatherSurname}`;
-  if (motherSurname)  q += ` motherSurname:${motherSurname}`;
-  if (sex)            q += ` sex:${sex}`;
-
-  params.set('q', q);
-  params.set('count', PAGE_SIZE);
-  params.set('start', offset);
-  params.set('access_token', currentToken);
+  // Construir URL manualmente para evitar codificación doble de q.param
+  let queryStr = `q.surname=${encodeURIComponent(surname)}`;
+  if (givenName)      queryStr += `&q.givenName=${encodeURIComponent(givenName)}`;
+  if (birthPlace)     queryStr += `&q.birthLikePlace=${encodeURIComponent(birthPlace)}`;
+  if (yearFrom)       queryStr += `&q.birthLikeDate.from=%2B${yearFrom}`;
+  if (yearTo)         queryStr += `&q.birthLikeDate.to=%2B${yearTo}`;
+  if (fatherSurname)  queryStr += `&q.fatherSurname=${encodeURIComponent(fatherSurname)}`;
+  if (motherSurname)  queryStr += `&q.motherSurname=${encodeURIComponent(motherSurname)}`;
+  if (sex)            queryStr += `&q.sex=${sex}`;
+  queryStr += `&count=${PAGE_SIZE}&start=${offset}`;
 
   lastQuery = { surname, givenName, birthPlace, yearFrom, yearTo, fatherSurname, motherSurname, sex };
 
-  const url = `${FS_BASE}/platform/tree/search?${params.toString()}`;
+  const url = `${FS_BASE}/platform/tree/search?${queryStr}`;
 
   // Mostrar URL en log
   const log = document.getElementById('reqLog');
@@ -498,7 +494,7 @@ async function buscar(offset = 0) {
   try {
     const res = await fetch(url, {
       headers: {
-        'Accept': 'application/json',
+        'Accept': 'application/x-gedcomx-atom+json',
         'Authorization': `Bearer ${currentToken}`
       }
     });
