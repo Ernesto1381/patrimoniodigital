@@ -153,9 +153,9 @@ header{background:var(--carbon);border-bottom:1px solid var(--borde);padding:1re
     <div class="field-group">
       <label class="field-label">País / Lugar de nacimiento</label>
       <select class="field-select" id="birthPlace">
-        <option value="">— Todos los países —</option>
+        <option value="" selected>— Sin filtro —</option>
         <optgroup label="🌎 Latinoamérica">
-          <option value="Chile" selected>🇨🇱 Chile</option>
+          <option value="Chile">🇨🇱 Chile</option>
           <option value="Mexico">🇲🇽 México</option>
           <option value="Argentina">🇦🇷 Argentina</option>
           <option value="Brasil">🇧🇷 Brasil</option>
@@ -311,18 +311,21 @@ async function buscar(offset = 0) {
   if(yearTo)         q += `&q.birthLikeDate.to=%2B${yearTo}`;
   if(fatherSurname)  q += `&q.fatherSurname=${encodeURIComponent(fatherSurname)}`;
   if(motherSurname)  q += `&q.motherSurname=${encodeURIComponent(motherSurname)}`;
-  q += `&count=${PAGE_SIZE}&start=${offset}&access_token=${token}`;
+  q += `&count=${PAGE_SIZE}&start=${offset}`;
 
   const url = `${FS_API}/platform/tree/search?${q}`;
   const log = document.getElementById('reqLog');
   log.classList.add('show');
-  log.textContent = 'GET ' + url.replace(token, '***TOKEN***');
+  log.textContent = 'GET ' + url;
 
   setState('loading');
 
   try {
     const res = await fetch(url, {
-      headers: { 'Accept': 'application/x-gedcomx-atom+json' }
+      headers: {
+        'Accept': 'application/x-gedcomx-atom+json',
+        'Authorization': `Bearer ${token}`
+      }
     });
 
     if(res.status === 204) { setState('results'); renderResultados([], 0); return; }
