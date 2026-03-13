@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PatrimonioDigital — Buscador Notarial</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --negro:#0c0c0c; --carbon:#111; --acero:#1a1a1a;
+  --borde:#252525; --borde2:#333;
+  --oro:#c8923a; --oro2:#e0aa52;
+  --blanco:#f2ede5; --texto:#c8c2b8; --gris:#6e6860; --gris2:#3a3530;
+  --verde2:#4caf82; --rojo2:#e07070; --azul2:#70a0e0;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--negro);color:var(--texto);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh;line-height:1.6;}
+
+header{background:var(--carbon);border-bottom:1px solid var(--borde);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.logo{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--blanco);}
+.logo span{color:var(--oro);}
+.header-meta{font-family:'DM Mono',monospace;font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gris);}
+
+/* INFO BANNER */
+.info-banner{margin:1rem 2rem;padding:0.75rem 1.25rem;border-radius:3px;background:rgba(112,160,224,0.08);border:1px solid rgba(112,160,224,0.2);font-size:0.8rem;color:var(--azul2);line-height:1.6;}
+.info-banner strong{color:var(--blanco);}
+
+/* MAIN */
+.main{display:grid;grid-template-columns:380px 1fr;min-height:calc(100vh - 110px);}
+.search-panel{background:var(--carbon);border-right:1px solid var(--borde);padding:1.5rem;overflow-y:auto;height:calc(100vh - 110px);position:sticky;top:110px;}
+.panel-title{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--blanco);margin-bottom:1.25rem;padding-bottom:0.75rem;border-bottom:1px solid var(--borde);}
+.field-group{margin-bottom:1rem;}
+.field-label{font-family:'DM Mono',monospace;font-size:0.52rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gris);margin-bottom:0.35rem;display:block;}
+.field-req{color:var(--oro);}
+.field-input,.field-select{width:100%;background:var(--acero);border:1px solid var(--borde2);color:var(--blanco);font-family:'DM Sans',sans-serif;font-size:0.88rem;padding:0.6rem 0.75rem;border-radius:2px;outline:none;transition:border-color 0.2s;}
+.field-input:focus,.field-select:focus{border-color:var(--oro);}
+.field-input::placeholder{color:var(--gris);font-size:0.82rem;}
+.field-select{appearance:none;cursor:pointer;}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;}
+.field-hint{font-size:0.7rem;color:var(--gris);margin-top:0.2rem;font-style:italic;}
+.sep{font-family:'DM Mono',monospace;font-size:0.5rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--oro);opacity:0.6;margin:1.25rem 0 0.75rem;display:flex;align-items:center;gap:0.5rem;}
+.sep::after{content:'';flex:1;height:1px;background:var(--borde2);}
+
+/* BOTONES */
+.btn-group{display:flex;flex-direction:column;gap:0.5rem;margin-top:1.25rem;}
+.btn-fs{width:100%;font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;border:none;border-radius:2px;padding:0.85rem 1rem;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:0.5rem;}
+.btn-fs.primary{background:var(--oro);color:var(--negro);}
+.btn-fs.primary:hover{background:var(--oro2);}
+.btn-fs.secondary{background:var(--acero);color:var(--texto);border:1px solid var(--borde2);}
+.btn-fs.secondary:hover{border-color:var(--oro);color:var(--oro);}
+.btn-fs.green{background:rgba(45,110,78,0.3);color:var(--verde2);border:1px solid rgba(76,175,130,0.3);}
+.btn-fs.green:hover{background:rgba(45,110,78,0.5);}
+.btn-limpiar{width:100%;font-family:'DM Mono',monospace;font-size:0.55rem;letter-spacing:0.1em;text-transform:uppercase;background:none;color:var(--gris);border:1px solid var(--borde2);border-radius:2px;padding:0.5rem;cursor:pointer;transition:all 0.2s;margin-top:0.25rem;}
+.btn-limpiar:hover{border-color:var(--rojo2);color:var(--rojo2);}
+
+/* PANEL DERECHO */
+.right-panel{padding:1.5rem;display:flex;flex-direction:column;gap:1.25rem;}
+.card{background:var(--carbon);border:1px solid var(--borde);border-radius:3px;overflow:hidden;}
+.card-header{padding:0.85rem 1.25rem;border-bottom:1px solid var(--borde);display:flex;align-items:center;gap:0.75rem;}
+.card-icon{font-size:1.1rem;}
+.card-title{font-family:'Playfair Display',serif;font-size:0.95rem;font-weight:700;color:var(--blanco);}
+.card-sub{font-family:'DM Mono',monospace;font-size:0.52rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gris);margin-left:auto;}
+.card-body{padding:1.25rem;}
+
+/* URL PREVIEW */
+.url-box{background:var(--acero);border:1px solid var(--borde2);border-radius:2px;padding:0.75rem 1rem;font-family:'DM Mono',monospace;font-size:0.62rem;color:var(--azul2);word-break:break-all;line-height:1.7;min-height:48px;}
+.url-box .param{color:var(--oro);}
+.url-box .val{color:var(--verde2);}
+.url-box .base{color:var(--gris);}
+.url-placeholder{color:var(--gris2);font-style:italic;}
+
+/* INSTRUCCIONES */
+.steps{display:flex;flex-direction:column;gap:0.75rem;}
+.step{display:flex;align-items:flex-start;gap:0.85rem;}
+.step-num{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:900;color:var(--oro);flex-shrink:0;line-height:1.2;}
+.step-text{font-size:0.85rem;color:var(--texto);line-height:1.5;}
+.step-text strong{color:var(--blanco);}
+.step-text code{font-family:'DM Mono',monospace;font-size:0.75rem;background:var(--acero);padding:0.1rem 0.4rem;border-radius:2px;color:var(--oro);}
+
+/* HISTORIAL */
+.historial{display:flex;flex-direction:column;gap:0.5rem;max-height:280px;overflow-y:auto;}
+.hist-item{display:flex;align-items:center;gap:0.75rem;padding:0.6rem 0.85rem;background:var(--acero);border:1px solid var(--borde);border-radius:2px;cursor:pointer;transition:border-color 0.2s;}
+.hist-item:hover{border-color:var(--oro);}
+.hist-name{font-family:'Playfair Display',serif;font-size:0.9rem;color:var(--blanco);flex:1;}
+.hist-meta{font-family:'DM Mono',monospace;font-size:0.5rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--gris);}
+.hist-btns{display:flex;gap:0.35rem;flex-shrink:0;}
+.hist-btn{font-family:'DM Mono',monospace;font-size:0.48rem;letter-spacing:0.08em;text-transform:uppercase;background:none;border:1px solid var(--borde2);color:var(--gris);padding:0.2rem 0.45rem;border-radius:2px;cursor:pointer;transition:all 0.2s;}
+.hist-btn:hover{border-color:var(--oro);color:var(--oro);}
+.empty-hist{font-size:0.82rem;color:var(--gris);font-style:italic;text-align:center;padding:1.5rem;}
+
+@media(max-width:900px){
+  .main{grid-template-columns:1fr;}
+  .search-panel{height:auto;position:static;border-right:none;border-bottom:1px solid var(--borde);}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Patrimonio<span>Digital</span> <span style="font-family:'DM Mono',monospace;font-size:0.7rem;font-weight:300;color:var(--gris);margin-left:0.5rem">— Buscador Notarial</span></div>
+  <div class="header-meta">FamilySearch · MyHeritage · Acceso directo</div>
+</header>
+
+<div class="info-banner">
+  Ingresa el nombre a verificar → haz clic en <strong>Buscar en FamilySearch</strong> o <strong>Buscar en MyHeritage</strong> → se abre el resultado directamente en tu navegador con tu sesión activa.
+</div>
+
+<div class="main">
+
+  <!-- PANEL IZQUIERDO -->
+  <div class="search-panel">
+    <div class="panel-title">🔍 Verificar Nombre</div>
+
+    <div class="sep">Nombre</div>
+
+    <div class="field-group">
+      <label class="field-label">Apellido <span class="field-req">*</span></label>
+      <input type="text" class="field-input" id="surname" placeholder="González, Krausse, Müller">
+    </div>
+    <div class="field-group">
+      <label class="field-label">Nombre de pila</label>
+      <input type="text" class="field-input" id="givenName" placeholder="Juan, Luisa, Karl">
+    </div>
+
+    <div class="sep">Origen y fecha</div>
+
+    <div class="field-group">
+      <label class="field-label">País</label>
+      <select class="field-select" id="country">
+        <option value="" selected>— Sin filtro —</option>
+        <optgroup label="🌎 Latinoamérica">
+          <option value="Chile">🇨🇱 Chile</option>
+          <option value="Mexico">🇲🇽 México</option>
+          <option value="Argentina">🇦🇷 Argentina</option>
+          <option value="Brasil">🇧🇷 Brasil</option>
+          <option value="Colombia">🇨🇴 Colombia</option>
+          <option value="Peru">🇵🇪 Perú</option>
+          <option value="Uruguay">🇺🇾 Uruguay</option>
+          <option value="Bolivia">🇧🇴 Bolivia</option>
+        </optgroup>
+        <optgroup label="🌍 Europa">
+          <option value="Germany">🇩🇪 Alemania</option>
+          <option value="Italy">🇮🇹 Italia</option>
+          <option value="Spain">🇪🇸 España</option>
+          <option value="Croatia">🇭🇷 Croacia</option>
+          <option value="Portugal">🇵🇹 Portugal</option>
+          <option value="France">🇫🇷 Francia</option>
+        </optgroup>
+        <optgroup label="🌐 Otro">
+          <option value="United States">🇺🇸 Estados Unidos</option>
+        </optgroup>
+      </select>
+    </div>
+
+    <div class="field-row">
+      <div class="field-group">
+        <label class="field-label">Año desde</label>
+        <input type="number" class="field-input" id="yearFrom" placeholder="1870" min="1500" max="1980">
+      </div>
+      <div class="field-group">
+        <label class="field-label">Año hasta</label>
+        <input type="number" class="field-input" id="yearTo" placeholder="1960" min="1500" max="1980">
+      </div>
+    </div>
+
+    <div class="sep">Familia (opcional)</div>
+
+    <div class="field-group">
+      <label class="field-label">Apellido del padre</label>
+      <input type="text" class="field-input" id="fatherSurname" placeholder="Apellido paterno">
+    </div>
+    <div class="field-group">
+      <label class="field-label">Apellido de la madre</label>
+      <input type="text" class="field-input" id="motherSurname" placeholder="Apellido materno">
+    </div>
+    <div class="field-group">
+      <label class="field-label">Sexo</label>
+      <select class="field-select" id="sex">
+        <option value="">— Sin filtro —</option>
+        <option value="male">Masculino</option>
+        <option value="female">Femenino</option>
+      </select>
+    </div>
+
+    <div class="btn-group">
+      <button class="btn-fs primary" onclick="buscar('fs')">
+        🌿 Buscar en FamilySearch
+      </button>
+      <button class="btn-fs green" onclick="buscar('mh')">
+        🌳 Buscar en MyHeritage
+      </button>
+      <button class="btn-fs secondary" onclick="buscar('fs'); buscar('mh')">
+        🔀 Buscar en ambos
+      </button>
+    </div>
+    <button class="btn-limpiar" onclick="limpiar()">Limpiar formulario</button>
+  </div>
+
+  <!-- PANEL DERECHO -->
+  <div class="right-panel">
+
+    <!-- URL PREVIEW -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-icon">🔗</span>
+        <span class="card-title">Vista previa de la búsqueda</span>
+        <span class="card-sub" id="previewSub">ingresa un apellido</span>
+      </div>
+      <div class="card-body">
+        <div style="margin-bottom:0.5rem;font-family:'DM Mono',monospace;font-size:0.52rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gris)">FamilySearch</div>
+        <div class="url-box" id="urlFS"><span class="url-placeholder">Ingresa un apellido para ver la URL...</span></div>
+        <div style="margin:0.75rem 0 0.5rem;font-family:'DM Mono',monospace;font-size:0.52rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gris)">MyHeritage</div>
+        <div class="url-box" id="urlMH"><span class="url-placeholder">Ingresa un apellido para ver la URL...</span></div>
+      </div>
+    </div>
+
+    <!-- INSTRUCCIONES -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-icon">📋</span>
+        <span class="card-title">Cómo usar</span>
+      </div>
+      <div class="card-body">
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-text">Ingresa el <strong>apellido</strong> que necesitas verificar del documento manuscrito. Puedes agregar nombre, año y país para refinar.</div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-text">Haz clic en <strong>Buscar en FamilySearch</strong> o <strong>Buscar en MyHeritage</strong> — se abre una pestaña nueva con los resultados usando tu sesión activa.</div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-text">Compara los resultados con el documento. Si el apellido tiene letra dudosa, prueba variantes: <code>Kraus</code>, <code>Krausse</code>, <code>Krauss</code>.</div>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-text">Una vez verificado, el nombre queda en el <strong>historial</strong> abajo para referencia futura.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HISTORIAL -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-icon">📜</span>
+        <span class="card-title">Historial de búsquedas</span>
+        <button onclick="limpiarHistorial()" style="margin-left:auto;font-family:'DM Mono',monospace;font-size:0.5rem;background:none;border:1px solid var(--borde2);color:var(--gris);padding:0.2rem 0.5rem;border-radius:2px;cursor:pointer;letter-spacing:0.08em;text-transform:uppercase;">Limpiar</button>
+      </div>
+      <div class="card-body">
+        <div class="historial" id="historial">
+          <div class="empty-hist">Las búsquedas aparecerán aquí</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+let historial = [];
+
+// Actualizar preview en tiempo real
+['surname','givenName','country','yearFrom','yearTo','fatherSurname','motherSurname','sex'].forEach(id => {
+  const el = document.getElementById(id);
+  if(el) el.addEventListener('input', actualizarPreview);
+  if(el) el.addEventListener('change', actualizarPreview);
+});
+
+// Enter busca en FamilySearch
+document.querySelectorAll('.field-input').forEach(el => {
+  el.addEventListener('keydown', e => { if(e.key==='Enter') buscar('fs'); });
+});
+
+function getValores() {
+  return {
+    surname:      document.getElementById('surname').value.trim(),
+    givenName:    document.getElementById('givenName').value.trim(),
+    country:      document.getElementById('country').value,
+    yearFrom:     document.getElementById('yearFrom').value,
+    yearTo:       document.getElementById('yearTo').value,
+    fatherSurname:document.getElementById('fatherSurname').value.trim(),
+    motherSurname:document.getElementById('motherSurname').value.trim(),
+    sex:          document.getElementById('sex').value,
+  };
+}
+
+function buildUrlFS(v) {
+  // URL de búsqueda en FamilySearch Tree Search
+  let url = 'https://www.familysearch.org/search/record/results?';
+  const p = new URLSearchParams();
+  if(v.surname)       p.set('q.surname', v.surname);
+  if(v.givenName)     p.set('q.givenName', v.givenName);
+  if(v.country)       p.set('q.birthLikePlace', v.country);
+  if(v.yearFrom)      p.set('q.birthLikeDate.from', '+' + v.yearFrom);
+  if(v.yearTo)        p.set('q.birthLikeDate.to', '+' + v.yearTo);
+  if(v.fatherSurname) p.set('q.fatherSurname', v.fatherSurname);
+  if(v.motherSurname) p.set('q.motherSurname', v.motherSurname);
+  if(v.sex)           p.set('q.sex', v.sex);
+  return url + p.toString();
+}
+
+function buildUrlMH(v) {
+  // URL de búsqueda en MyHeritage SuperSearch
+  let url = 'https://www.myheritage.com/research/collection-1/myheritage-family-trees?';
+  const p = new URLSearchParams();
+  if(v.surname)   p.set('s', v.surname);
+  if(v.givenName) p.set('fn', v.givenName);
+  if(v.country)   p.set('bp', v.country);
+  if(v.yearFrom)  p.set('byr', v.yearFrom);
+  if(v.yearTo)    p.set('byre', v.yearTo);
+  // URL alternativa más simple de MyHeritage
+  return `https://www.myheritage.com/names/${encodeURIComponent((v.givenName+' '+v.surname).trim())}`;
+}
+
+function buildUrlMHSearch(v) {
+  const base = 'https://www.myheritage.com/research/';
+  const p = new URLSearchParams();
+  p.set('action', 'query');
+  if(v.givenName) p.set('fn', v.givenName);
+  if(v.surname)   p.set('ln', v.surname);
+  if(v.country)   p.set('ctry', v.country);
+  if(v.yearFrom)  p.set('birth_year_from', v.yearFrom);
+  if(v.yearTo)    p.set('birth_year_to', v.yearTo);
+  return base + '?' + p.toString();
+}
+
+function actualizarPreview() {
+  const v = getValores();
+  const fsEl = document.getElementById('urlFS');
+  const mhEl = document.getElementById('urlMH');
+  const sub  = document.getElementById('previewSub');
+
+  if(!v.surname) {
+    fsEl.innerHTML = '<span class="url-placeholder">Ingresa un apellido para ver la URL...</span>';
+    mhEl.innerHTML = '<span class="url-placeholder">Ingresa un apellido para ver la URL...</span>';
+    sub.textContent = 'ingresa un apellido';
+    return;
+  }
+
+  sub.textContent = v.givenName ? `${v.givenName} ${v.surname}` : v.surname;
+
+  const urlFS = buildUrlFS(v);
+  const urlMH = buildUrlMHSearch(v);
+
+  fsEl.textContent = urlFS;
+  mhEl.textContent = urlMH;
+}
+
+function buscar(destino) {
+  const v = getValores();
+  if(!v.surname) {
+    document.getElementById('surname').focus();
+    document.getElementById('surname').style.borderColor = 'var(--rojo2)';
+    setTimeout(() => document.getElementById('surname').style.borderColor = '', 1500);
+    return;
+  }
+
+  const url = destino === 'fs' ? buildUrlFS(v) : buildUrlMHSearch(v);
+  window.open(url, '_blank');
+
+  // Guardar en historial
+  agregarHistorial(v, destino);
+}
+
+function agregarHistorial(v, destino) {
+  const nombre = [v.givenName, v.surname].filter(Boolean).join(' ');
+  const meta   = [v.country, v.yearFrom ? v.yearFrom+'-'+(v.yearTo||'?') : ''].filter(Boolean).join(' · ');
+  const item   = { nombre, meta, v, ts: Date.now() };
+  // Evitar duplicados consecutivos
+  if(historial.length && historial[0].nombre === nombre) return;
+  historial.unshift(item);
+  if(historial.length > 20) historial.pop();
+  renderHistorial();
+}
+
+function renderHistorial() {
+  const el = document.getElementById('historial');
+  if(!historial.length) {
+    el.innerHTML = '<div class="empty-hist">Las búsquedas aparecerán aquí</div>';
+    return;
+  }
+  el.innerHTML = historial.map((h, i) => `
+    <div class="hist-item">
+      <div>
+        <div class="hist-name">${esc(h.nombre)}</div>
+        ${h.meta ? `<div class="hist-meta">${esc(h.meta)}</div>` : ''}
+      </div>
+      <div class="hist-btns">
+        <button class="hist-btn" onclick="reabrirHistorial(${i},'fs')">FS</button>
+        <button class="hist-btn" onclick="reabrirHistorial(${i},'mh')">MH</button>
+        <button class="hist-btn" onclick="cargarHistorial(${i})">↩</button>
+      </div>
+    </div>`).join('');
+}
+
+function reabrirHistorial(i, destino) {
+  const h = historial[i];
+  const url = destino === 'fs' ? buildUrlFS(h.v) : buildUrlMHSearch(h.v);
+  window.open(url, '_blank');
+}
+
+function cargarHistorial(i) {
+  const h = historial[i];
+  const v = h.v;
+  document.getElementById('surname').value       = v.surname || '';
+  document.getElementById('givenName').value     = v.givenName || '';
+  document.getElementById('country').value       = v.country || '';
+  document.getElementById('yearFrom').value      = v.yearFrom || '';
+  document.getElementById('yearTo').value        = v.yearTo || '';
+  document.getElementById('fatherSurname').value = v.fatherSurname || '';
+  document.getElementById('motherSurname').value = v.motherSurname || '';
+  document.getElementById('sex').value           = v.sex || '';
+  actualizarPreview();
+}
+
+function limpiar() {
+  ['surname','givenName','yearFrom','yearTo','fatherSurname','motherSurname'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('country').value = '';
+  document.getElementById('sex').value = '';
+  actualizarPreview();
+  document.getElementById('surname').focus();
+}
+
+function limpiarHistorial() {
+  historial = [];
+  renderHistorial();
+}
+
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+</script>
+</body>
+</html>
