@@ -316,15 +316,16 @@ function buildUrlMH(v) {
 }
 
 function buildUrlMHSearch(v) {
-  const base = 'https://www.myheritage.com/research/';
-  const p = new URLSearchParams();
-  p.set('action', 'query');
-  if(v.givenName) p.set('fn', v.givenName);
-  if(v.surname)   p.set('ln', v.surname);
-  if(v.country)   p.set('ctry', v.country);
-  if(v.yearFrom)  p.set('birth_year_from', v.yearFrom);
-  if(v.yearTo)    p.set('birth_year_to', v.yearTo);
-  return base + '?' + p.toString();
+  // Formato real de MyHeritage
+  let qname = 'Name';
+  if(v.givenName) qname += `+fn.${encodeURIComponent(v.givenName)}+fnmo.1`;
+  if(v.surname)   qname += `+ln.${encodeURIComponent(v.surname)}+lnmsrs.false`;
+
+  let url = 'https://www.myheritage.es/research?s=1&formId=master&formMode=1&useTranslation=1&exactSearch=&p=1&action=query&view_mode=card';
+  url += `&qname=${qname}`;
+  if(v.country)             url += `&qplace=Place+birth_place.${encodeURIComponent(v.country)}`;
+  if(v.yearFrom || v.yearTo) url += `&qyear=Year+birth_year.${v.yearFrom||''}-${v.yearTo||''}+birth_year_range.5`;
+  return url;
 }
 
 function actualizarPreview() {
