@@ -492,10 +492,13 @@ async function buscar(offset = 0) {
   setState('loading');
 
   try {
-    const res = await fetch(url, {
+    // Agregar token como parámetro URL (más compatible con sandbox)
+    const finalUrl = url + `&access_token=${currentToken}`;
+    document.getElementById('reqUrl').textContent = finalUrl.replace(currentToken, '***TOKEN***');
+
+    const res = await fetch(finalUrl, {
       headers: {
-        'Accept': 'application/x-gedcomx-atom+json',
-        'Authorization': `Bearer ${currentToken}`
+        'Accept': 'application/x-gedcomx-atom+json'
       }
     });
 
