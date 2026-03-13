@@ -11,55 +11,47 @@
   --borde:#252525; --borde2:#333;
   --oro:#c8923a; --oro2:#e0aa52;
   --blanco:#f2ede5; --texto:#c8c2b8; --gris:#6e6860; --gris2:#3a3530;
-  --verde:#2d6e4e; --verde2:#4caf82;
-  --rojo2:#e07070; --azul2:#70a0e0;
+  --verde2:#4caf82; --rojo2:#e07070; --azul2:#70a0e0;
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
-html{font-size:16px;}
 body{background:var(--negro);color:var(--texto);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh;line-height:1.6;}
 
-/* HEADER */
 header{background:var(--carbon);border-bottom:1px solid var(--borde);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
 .logo{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--blanco);}
 .logo span{color:var(--oro);}
-.header-right{display:flex;align-items:center;gap:1rem;}
-.session-info{font-family:'DM Mono',monospace;font-size:0.55rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gris);}
-.session-user{color:var(--verde2);}
-.btn-logout{font-family:'DM Mono',monospace;font-size:0.52rem;letter-spacing:0.1em;text-transform:uppercase;background:none;border:1px solid var(--borde2);color:var(--gris);padding:0.25rem 0.6rem;border-radius:2px;cursor:pointer;transition:all 0.2s;}
-.btn-logout:hover{border-color:var(--rojo2);color:var(--rojo2);}
+.header-meta{font-family:'DM Mono',monospace;font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gris);}
 
-/* LOGIN SCREEN */
-.login-screen{display:flex;align-items:center;justify-content:center;min-height:calc(100vh - 64px);padding:2rem;}
-.login-card{background:var(--carbon);border:1px solid var(--borde2);border-radius:4px;padding:2.5rem;width:100%;max-width:420px;}
-.login-title{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--blanco);margin-bottom:0.5rem;}
-.login-sub{font-size:0.85rem;color:var(--gris);margin-bottom:2rem;line-height:1.6;}
-.login-sub strong{color:var(--oro);}
-.form-group{display:flex;flex-direction:column;gap:0.4rem;margin-bottom:1.25rem;}
-.form-label{font-family:'DM Mono',monospace;font-size:0.52rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gris);}
-.form-input{background:var(--acero);border:1px solid var(--borde2);color:var(--blanco);font-family:'DM Sans',sans-serif;font-size:0.9rem;padding:0.65rem 0.9rem;border-radius:2px;outline:none;transition:border-color 0.2s;width:100%;}
-.form-input:focus{border-color:var(--oro);}
-.form-input::placeholder{color:var(--gris);}
-.btn-login{width:100%;font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;background:var(--oro);color:var(--negro);border:none;border-radius:2px;padding:0.85rem;cursor:pointer;transition:background 0.2s;margin-top:0.5rem;}
-.btn-login:hover{background:var(--oro2);}
-.btn-login:disabled{background:var(--gris2);color:var(--gris);cursor:not-allowed;}
-.login-error{background:rgba(224,112,112,0.1);border:1px solid rgba(224,112,112,0.3);border-radius:2px;padding:0.65rem 0.9rem;font-size:0.82rem;color:var(--rojo2);margin-top:1rem;display:none;}
-.login-error.show{display:block;}
-.login-note{font-size:0.72rem;color:var(--gris);margin-top:1.25rem;line-height:1.6;text-align:center;}
-
-/* STATUS BAR */
-.status-bar{margin:1rem 2rem;padding:0.6rem 1.25rem;border-radius:3px;display:flex;align-items:center;gap:0.75rem;background:rgba(45,110,78,0.12);border:1px solid rgba(76,175,130,0.25);}
-.status-dot{width:7px;height:7px;border-radius:50%;background:var(--verde2);animation:pulse 2s infinite;flex-shrink:0;}
+/* TOKEN BANNER */
+.token-banner{margin:1rem 2rem;padding:0.65rem 1.25rem;border-radius:3px;display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;}
+.token-banner.ok{background:rgba(45,110,78,0.12);border:1px solid rgba(76,175,130,0.25);}
+.token-banner.warn{background:rgba(139,58,58,0.12);border:1px solid rgba(224,112,112,0.25);}
+.token-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.token-banner.ok .token-dot{background:var(--verde2);animation:pulse 2s infinite;}
+.token-banner.warn .token-dot{background:var(--rojo2);}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(1.3)}}
-.status-text{font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--verde2);}
+.token-label{font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;}
+.token-banner.ok .token-label{color:var(--verde2);}
+.token-banner.warn .token-label{color:var(--rojo2);}
+.token-val{font-family:'DM Mono',monospace;font-size:0.55rem;color:var(--gris);flex:1;}
+.btn-sm{font-family:'DM Mono',monospace;font-size:0.55rem;letter-spacing:0.1em;text-transform:uppercase;border:none;border-radius:2px;padding:0.35rem 0.8rem;cursor:pointer;transition:all 0.2s;white-space:nowrap;}
+.btn-obtener{background:var(--oro);color:var(--negro);}
+.btn-obtener:hover{background:var(--oro2);}
+.btn-pegar{background:none;border:1px solid var(--borde2)!important;color:var(--gris);}
+.btn-pegar:hover{border-color:var(--oro)!important;color:var(--oro);}
+
+/* TOKEN INPUT */
+.token-input-area{margin:0 2rem 0.5rem;background:var(--acero);border:1px solid var(--borde2);border-radius:3px;padding:0.85rem 1.25rem;display:none;align-items:center;gap:0.5rem;}
+.token-input-area.show{display:flex;}
+.token-input{flex:1;background:var(--negro);border:1px solid var(--borde2);color:var(--blanco);font-family:'DM Mono',monospace;font-size:0.75rem;padding:0.45rem 0.75rem;border-radius:2px;outline:none;}
+.token-input:focus{border-color:var(--oro);}
 
 /* REQ LOG */
-.req-log{margin:0 2rem 0.5rem;background:var(--acero);border:1px solid var(--borde);border-radius:3px;padding:0.6rem 1rem;font-family:'DM Mono',monospace;font-size:0.6rem;color:var(--gris);display:none;word-break:break-all;}
+.req-log{margin:0 2rem 0.5rem;background:var(--acero);border:1px solid var(--borde);border-radius:3px;padding:0.6rem 1rem;font-family:'DM Mono',monospace;font-size:0.6rem;color:var(--azul2);display:none;word-break:break-all;}
 .req-log.show{display:block;}
-.req-log span{color:var(--azul2);}
 
 /* MAIN */
-.main{display:grid;grid-template-columns:360px 1fr;min-height:calc(100vh - 120px);}
-.search-panel{background:var(--carbon);border-right:1px solid var(--borde);padding:1.5rem;overflow-y:auto;height:calc(100vh - 120px);position:sticky;top:110px;}
+.main{display:grid;grid-template-columns:360px 1fr;min-height:calc(100vh - 130px);}
+.search-panel{background:var(--carbon);border-right:1px solid var(--borde);padding:1.5rem;overflow-y:auto;height:calc(100vh - 130px);position:sticky;top:130px;}
 .panel-title{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--blanco);margin-bottom:1.25rem;padding-bottom:0.75rem;border-bottom:1px solid var(--borde);}
 .field-group{margin-bottom:1rem;}
 .field-label{font-family:'DM Mono',monospace;font-size:0.52rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gris);margin-bottom:0.35rem;display:block;}
@@ -87,29 +79,27 @@ header{background:var(--carbon);border-bottom:1px solid var(--borde);padding:1re
 .state-box{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:300px;text-align:center;gap:1rem;}
 .state-icon{font-size:3rem;opacity:0.4;}
 .state-title{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--blanco);opacity:0.5;}
-.state-desc{font-size:0.85rem;color:var(--gris);max-width:320px;line-height:1.6;}
+.state-desc{font-size:0.85rem;color:var(--gris);max-width:340px;line-height:1.6;}
 .spinner{width:36px;height:36px;border:2px solid var(--borde2);border-top-color:var(--oro);border-radius:50%;animation:spin 0.7s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg)}}
-.result-card{background:var(--acero);border:1px solid var(--borde);border-radius:3px;margin-bottom:0.75rem;overflow:hidden;transition:border-color 0.2s;}
-.result-card:hover{border-color:var(--borde2);}
+.result-card{background:var(--acero);border:1px solid var(--borde);border-radius:3px;margin-bottom:0.75rem;overflow:hidden;}
 .result-main{padding:1rem 1.25rem;display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;}
-.result-name{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--blanco);margin-bottom:0.2rem;line-height:1.2;}
-.result-id{font-family:'DM Mono',monospace;font-size:0.52rem;letter-spacing:0.1em;color:var(--gris);margin-bottom:0.5rem;}
+.result-name{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--blanco);margin-bottom:0.2rem;}
+.result-id{font-family:'DM Mono',monospace;font-size:0.52rem;color:var(--gris);margin-bottom:0.5rem;}
 .fact-row{display:flex;align-items:baseline;gap:0.5rem;font-size:0.82rem;margin-bottom:0.15rem;}
-.fact-label{font-family:'DM Mono',monospace;font-size:0.5rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--oro);flex-shrink:0;width:28px;}
-.fact-val{color:var(--texto);}
+.fact-label{font-family:'DM Mono',monospace;font-size:0.5rem;text-transform:uppercase;color:var(--oro);flex-shrink:0;width:28px;}
 .result-score{flex-shrink:0;text-align:center;}
 .score-num{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:900;line-height:1;}
 .score-num.high{color:var(--verde2);}
 .score-num.med{color:var(--oro);}
 .score-num.low{color:var(--gris);}
-.score-label{font-family:'DM Mono',monospace;font-size:0.45rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gris);margin-top:0.1rem;}
+.score-label{font-family:'DM Mono',monospace;font-size:0.45rem;text-transform:uppercase;color:var(--gris);}
 .result-footer{padding:0.5rem 1.25rem;border-top:1px solid var(--borde);display:flex;align-items:center;justify-content:space-between;}
-.result-link{font-family:'DM Mono',monospace;font-size:0.55rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--oro);text-decoration:none;transition:color 0.2s;}
+.result-link{font-family:'DM Mono',monospace;font-size:0.55rem;text-transform:uppercase;color:var(--oro);text-decoration:none;}
 .result-link:hover{color:var(--oro2);}
 .result-sex{font-family:'DM Mono',monospace;font-size:0.55rem;text-transform:uppercase;color:var(--gris);}
 .paginacion{display:flex;align-items:center;justify-content:center;gap:0.5rem;margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--borde);}
-.pag-btn{font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;background:var(--acero);border:1px solid var(--borde2);color:var(--texto);padding:0.45rem 0.9rem;border-radius:2px;cursor:pointer;transition:all 0.2s;}
+.pag-btn{font-family:'DM Mono',monospace;font-size:0.6rem;text-transform:uppercase;background:var(--acero);border:1px solid var(--borde2);color:var(--texto);padding:0.45rem 0.9rem;border-radius:2px;cursor:pointer;transition:all 0.2s;}
 .pag-btn:hover:not(:disabled){border-color:var(--oro);color:var(--oro);}
 .pag-btn:disabled{opacity:0.3;cursor:not-allowed;}
 .pag-info{font-family:'DM Mono',monospace;font-size:0.6rem;color:var(--gris);}
@@ -124,259 +114,185 @@ header{background:var(--carbon);border-bottom:1px solid var(--borde);padding:1re
 
 <header>
   <div class="logo">Patrimonio<span>Digital</span> <span style="font-family:'DM Mono',monospace;font-size:0.7rem;font-weight:300;color:var(--gris);margin-left:0.5rem">— Buscador Notarial</span></div>
-  <div class="header-right">
-    <span class="session-info" id="sessionInfo" style="display:none">Sesión: <span class="session-user" id="sessionUser"></span></span>
-    <button class="btn-logout" id="btnLogout" style="display:none" onclick="logout()">Cerrar sesión</button>
-    <span style="font-family:'DM Mono',monospace;font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gris)">FamilySearch API · Beta</span>
-  </div>
+  <div class="header-meta">FamilySearch API · Beta</div>
 </header>
 
-<!-- LOGIN -->
-<div id="loginScreen" class="login-screen">
-  <div class="login-card">
-    <div class="login-title">Iniciar Sesión</div>
-    <div class="login-sub">Ingresa tus credenciales de <strong>FamilySearch</strong> para acceder al buscador notarial.</div>
-    <div class="form-group">
-      <label class="form-label">Usuario FamilySearch</label>
-      <input type="text" class="form-input" id="loginUser" placeholder="tu.usuario" value="ehernandez" autocomplete="username">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Contraseña</label>
-      <input type="password" class="form-input" id="loginPass" placeholder="••••••••" autocomplete="current-password">
-    </div>
-    <button class="btn-login" id="btnLogin" onclick="doLogin()">Ingresar a FamilySearch</button>
-    <div class="login-error" id="loginError"></div>
-    <div class="login-note">Tu contraseña se usa únicamente para obtener el token de acceso y no se almacena.</div>
-  </div>
+<!-- TOKEN BANNER -->
+<div class="token-banner warn" id="tokenBanner">
+  <div class="token-dot"></div>
+  <span class="token-label" id="tokenLabel">Sin token — necesitas autenticarte</span>
+  <span class="token-val" id="tokenVal"></span>
+  <button class="btn-sm btn-obtener" onclick="obtenerToken()">① Obtener Token</button>
+  <button class="btn-sm btn-pegar" style="border:1px solid var(--borde2)" onclick="togglePegar()">② Pegar Token</button>
 </div>
 
-<!-- APP (oculta hasta login) -->
-<div id="appScreen" style="display:none">
-  <div class="status-bar">
-    <div class="status-dot"></div>
-    <span class="status-text" id="statusText">Conectado a FamilySearch Beta</span>
-  </div>
-  <div class="req-log" id="reqLog"><span id="reqUrl"></span></div>
-  <div class="main">
-    <div class="search-panel">
-      <div class="panel-title">🔍 Verificar Nombre</div>
-      <div class="sep">Nombre</div>
-      <div class="field-group">
-        <label class="field-label">Apellido <span class="field-req">*</span></label>
-        <input type="text" class="field-input" id="surname" placeholder="González, Tr?ub, Müll*">
-        <div class="field-hint">Usa * para varios caracteres, ? para uno solo</div>
-      </div>
-      <div class="field-group">
-        <label class="field-label">Nombre de pila</label>
-        <input type="text" class="field-input" id="givenName" placeholder="Juan, Mar*, Jos?">
-      </div>
-      <div class="sep">Origen</div>
-      <div class="field-group">
-        <label class="field-label">País / Lugar de nacimiento</label>
-        <select class="field-select" id="birthPlace">
-          <option value="">— Todos los países —</option>
-          <optgroup label="🌎 Latinoamérica">
-            <option value="Chile" selected>🇨🇱 Chile</option>
-            <option value="Mexico">🇲🇽 México</option>
-            <option value="Argentina">🇦🇷 Argentina</option>
-            <option value="Brasil">🇧🇷 Brasil</option>
-            <option value="Colombia">🇨🇴 Colombia</option>
-            <option value="Peru">🇵🇪 Perú</option>
-            <option value="Uruguay">🇺🇾 Uruguay</option>
-            <option value="Bolivia">🇧🇴 Bolivia</option>
-          </optgroup>
-          <optgroup label="🌍 Europa">
-            <option value="Germany">🇩🇪 Alemania</option>
-            <option value="Italy">🇮🇹 Italia</option>
-            <option value="Spain">🇪🇸 España</option>
-            <option value="Croatia">🇭🇷 Croacia</option>
-            <option value="Portugal">🇵🇹 Portugal</option>
-            <option value="France">🇫🇷 Francia</option>
-          </optgroup>
-          <optgroup label="🌐 Otro">
-            <option value="United States">🇺🇸 Estados Unidos</option>
-          </optgroup>
-        </select>
-      </div>
-      <div class="field-row">
-        <div class="field-group">
-          <label class="field-label">Año desde</label>
-          <input type="number" class="field-input" id="yearFrom" placeholder="1870" min="1500" max="1980">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Año hasta</label>
-          <input type="number" class="field-input" id="yearTo" placeholder="1960" min="1500" max="1980">
-        </div>
-      </div>
-      <div class="sep">Familia (opcional)</div>
-      <div class="field-group">
-        <label class="field-label">Apellido del padre</label>
-        <input type="text" class="field-input" id="fatherSurname" placeholder="Apellido paterno">
-      </div>
-      <div class="field-group">
-        <label class="field-label">Apellido de la madre</label>
-        <input type="text" class="field-input" id="motherSurname" placeholder="Apellido materno">
-      </div>
-      <div class="field-group">
-        <label class="field-label">Sexo</label>
-        <select class="field-select" id="sex">
-          <option value="">— Sin filtro —</option>
-          <option value="Male">Masculino</option>
-          <option value="Female">Femenino</option>
-        </select>
-      </div>
-      <button class="btn-buscar" id="btnBuscar" onclick="buscar()">Buscar en FamilySearch</button>
-      <button class="btn-limpiar" onclick="limpiar()">Limpiar formulario</button>
-    </div>
+<!-- TOKEN INPUT -->
+<div class="token-input-area" id="tokenInputArea">
+  <input type="text" class="token-input" id="tokenInput" placeholder="Pega aquí el token copiado de la URL de FamilySearch...">
+  <button class="btn-sm btn-obtener" onclick="guardarToken()">Guardar</button>
+  <button class="btn-sm btn-pegar" style="border:1px solid var(--borde2)" onclick="togglePegar()">Cancelar</button>
+</div>
 
-    <div class="results-panel" id="resultsPanel">
-      <div class="state-box" id="stateEmpty">
-        <div class="state-icon">📜</div>
-        <div class="state-title">Ingresa un apellido para comenzar</div>
-        <div class="state-desc">Busca nombres manuscritos en los registros históricos de FamilySearch. Puedes usar comodines: <strong style="color:var(--oro)">Tr?ub</strong> o <strong style="color:var(--oro)">Gonz*</strong></div>
+<!-- REQ LOG -->
+<div class="req-log" id="reqLog" id="reqUrl"></div>
+
+<div class="main">
+  <div class="search-panel">
+    <div class="panel-title">🔍 Verificar Nombre</div>
+    <div class="sep">Nombre</div>
+    <div class="field-group">
+      <label class="field-label">Apellido <span class="field-req">*</span></label>
+      <input type="text" class="field-input" id="surname" placeholder="González, Tr?ub, Müll*">
+      <div class="field-hint">Usa * para varios caracteres, ? para uno solo</div>
+    </div>
+    <div class="field-group">
+      <label class="field-label">Nombre de pila</label>
+      <input type="text" class="field-input" id="givenName" placeholder="Juan, Mar*, Jos?">
+    </div>
+    <div class="sep">Origen</div>
+    <div class="field-group">
+      <label class="field-label">País / Lugar de nacimiento</label>
+      <select class="field-select" id="birthPlace">
+        <option value="">— Todos los países —</option>
+        <optgroup label="🌎 Latinoamérica">
+          <option value="Chile" selected>🇨🇱 Chile</option>
+          <option value="Mexico">🇲🇽 México</option>
+          <option value="Argentina">🇦🇷 Argentina</option>
+          <option value="Brasil">🇧🇷 Brasil</option>
+          <option value="Colombia">🇨🇴 Colombia</option>
+          <option value="Peru">🇵🇪 Perú</option>
+          <option value="Uruguay">🇺🇾 Uruguay</option>
+          <option value="Bolivia">🇧🇴 Bolivia</option>
+        </optgroup>
+        <optgroup label="🌍 Europa">
+          <option value="Germany">🇩🇪 Alemania</option>
+          <option value="Italy">🇮🇹 Italia</option>
+          <option value="Spain">🇪🇸 España</option>
+          <option value="Croatia">🇭🇷 Croacia</option>
+          <option value="Portugal">🇵🇹 Portugal</option>
+          <option value="France">🇫🇷 Francia</option>
+        </optgroup>
+        <optgroup label="🌐 Otro">
+          <option value="United States">🇺🇸 Estados Unidos</option>
+        </optgroup>
+      </select>
+    </div>
+    <div class="field-row">
+      <div class="field-group">
+        <label class="field-label">Año desde</label>
+        <input type="number" class="field-input" id="yearFrom" placeholder="1870" min="1500" max="1980">
       </div>
-      <div class="state-box" id="stateLoading" style="display:none">
-        <div class="spinner"></div>
-        <div class="state-title">Consultando FamilySearch...</div>
+      <div class="field-group">
+        <label class="field-label">Año hasta</label>
+        <input type="number" class="field-input" id="yearTo" placeholder="1960" min="1500" max="1980">
       </div>
-      <div class="state-box" id="stateError" style="display:none">
-        <div class="state-icon">⚠️</div>
-        <div class="state-title" id="errorTitle">Error</div>
-        <div class="state-desc" id="errorDesc"></div>
+    </div>
+    <div class="sep">Familia (opcional)</div>
+    <div class="field-group">
+      <label class="field-label">Apellido del padre</label>
+      <input type="text" class="field-input" id="fatherSurname" placeholder="Apellido paterno">
+    </div>
+    <div class="field-group">
+      <label class="field-label">Apellido de la madre</label>
+      <input type="text" class="field-input" id="motherSurname" placeholder="Apellido materno">
+    </div>
+    <div class="field-group">
+      <label class="field-label">Sexo</label>
+      <select class="field-select" id="sex">
+        <option value="">— Sin filtro —</option>
+        <option value="Male">Masculino</option>
+        <option value="Female">Femenino</option>
+      </select>
+    </div>
+    <button class="btn-buscar" id="btnBuscar" onclick="buscar()" disabled>Buscar en FamilySearch</button>
+    <button class="btn-limpiar" onclick="limpiar()">Limpiar formulario</button>
+  </div>
+
+  <div class="results-panel" id="resultsPanel">
+    <div class="state-box" id="stateEmpty">
+      <div class="state-icon">🔑</div>
+      <div class="state-title">Primero obtén tu token</div>
+      <div class="state-desc">
+        Haz clic en <strong style="color:var(--oro)">① Obtener Token</strong> arriba → se abre FamilySearch → haz clic en "Authenticate" → copia el token de la URL → vuelve aquí y haz clic en <strong style="color:var(--oro)">② Pegar Token</strong>.
       </div>
-      <div id="stateResults" style="display:none">
-        <div class="results-header">
-          <div class="results-title">Resultados</div>
-          <div class="results-count">Mostrando <span id="countFrom">0</span>–<span id="countTo">0</span> de <span id="countTotal">0</span></div>
-        </div>
-        <div id="resultsList"></div>
-        <div class="paginacion" id="paginacion" style="display:none">
-          <button class="pag-btn" id="btnPrev" onclick="cambiarPag(-1)">← Anterior</button>
-          <span class="pag-info" id="pagInfo"></span>
-          <button class="pag-btn" id="btnNext" onclick="cambiarPag(1)">Siguiente →</button>
-        </div>
+    </div>
+    <div class="state-box" id="stateLoading" style="display:none">
+      <div class="spinner"></div>
+      <div class="state-title">Consultando FamilySearch...</div>
+    </div>
+    <div class="state-box" id="stateError" style="display:none">
+      <div class="state-icon">⚠️</div>
+      <div class="state-title" id="errorTitle">Error</div>
+      <div class="state-desc" id="errorDesc"></div>
+    </div>
+    <div id="stateResults" style="display:none">
+      <div class="results-header">
+        <div class="results-title">Resultados</div>
+        <div class="results-count">Mostrando <span id="countFrom">0</span>–<span id="countTo">0</span> de <span id="countTotal">0</span></div>
+      </div>
+      <div id="resultsList"></div>
+      <div class="paginacion" id="paginacion" style="display:none">
+        <button class="pag-btn" id="btnPrev" onclick="cambiarPag(-1)">← Anterior</button>
+        <span class="pag-info" id="pagInfo"></span>
+        <button class="pag-btn" id="btnNext" onclick="cambiarPag(1)">Siguiente →</button>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-const FS_BASE = 'https://identbeta.familysearch.org';
-const FS_API  = 'https://beta.familysearch.org';
+const FS_API = 'https://beta.familysearch.org';
 const PAGE_SIZE = 20;
 let token = '';
 let currentOffset = 0;
 let totalResults = 0;
 
-// Enter en login
-document.getElementById('loginPass').addEventListener('keydown', e => {
-  if (e.key === 'Enter') doLogin();
-});
-
-// Enter en búsqueda
+// Enter en campos de búsqueda
 document.addEventListener('DOMContentLoaded', () => {
   ['surname','givenName','yearFrom','yearTo','fatherSurname','motherSurname'].forEach(id => {
     const el = document.getElementById(id);
-    if (el) el.addEventListener('keydown', e => { if(e.key==='Enter') buscar(); });
+    if(el) el.addEventListener('keydown', e => { if(e.key==='Enter') buscar(); });
+  });
+  document.getElementById('tokenInput').addEventListener('keydown', e => {
+    if(e.key==='Enter') guardarToken();
   });
 });
 
-async function doLogin() {
-  const user = document.getElementById('loginUser').value.trim();
-  const pass = document.getElementById('loginPass').value;
-  const errEl = document.getElementById('loginError');
-  const btn = document.getElementById('btnLogin');
+function obtenerToken() {
+  window.open('https://beta.familysearch.org/platform/', '_blank');
+}
 
-  if (!user || !pass) {
-    showLoginError('Ingresa usuario y contraseña.');
-    return;
-  }
-
-  btn.disabled = true;
-  btn.textContent = 'Conectando...';
-  errEl.classList.remove('show');
-
-  try {
-    const body = new URLSearchParams({
-      grant_type: 'password',
-      username: user,
-      password: pass,
-      client_id: 'UIUC-73337-4jd6Fbf5'  // App Key pública del sandbox de FamilySearch
-    });
-
-    const res = await fetch(`${FS_BASE}/cis-web/oauth2/v3/token`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: body.toString()
-    });
-
-    const data = await res.json();
-
-    if (!res.ok || !data.access_token) {
-      const msg = data.error_description || data.error || 'Credenciales incorrectas.';
-      showLoginError(msg);
-      btn.disabled = false;
-      btn.textContent = 'Ingresar a FamilySearch';
-      return;
-    }
-
-    token = data.access_token;
-    document.getElementById('loginScreen').style.display = 'none';
-    document.getElementById('appScreen').style.display = 'block';
-    document.getElementById('sessionInfo').style.display = 'inline';
-    document.getElementById('sessionUser').textContent = user;
-    document.getElementById('btnLogout').style.display = 'inline-block';
-    document.getElementById('statusText').textContent = `Conectado como ${user} · Token activo`;
-
-    // Auto-renovar token cada 50 minutos
-    setInterval(() => renovarToken(user, pass), 50 * 60 * 1000);
-
-  } catch(err) {
-    showLoginError('Error de conexión: ' + err.message);
-    btn.disabled = false;
-    btn.textContent = 'Ingresar a FamilySearch';
+function togglePegar() {
+  const area = document.getElementById('tokenInputArea');
+  area.classList.toggle('show');
+  if(area.classList.contains('show')) {
+    document.getElementById('tokenInput').focus();
   }
 }
 
-async function renovarToken(user, pass) {
-  try {
-    const body = new URLSearchParams({
-      grant_type: 'password',
-      username: user,
-      password: pass,
-      client_id: 'UIUC-73337-4jd6Fbf5'
-    });
-    const res = await fetch(`${FS_BASE}/cis-web/oauth2/v3/token`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: body.toString()
-    });
-    const data = await res.json();
-    if (data.access_token) {
-      token = data.access_token;
-      document.getElementById('statusText').textContent = `Conectado como ${user} · Token renovado`;
-    }
-  } catch(e) { console.warn('No se pudo renovar token:', e); }
-}
-
-function showLoginError(msg) {
-  const el = document.getElementById('loginError');
-  el.textContent = msg;
-  el.classList.add('show');
-}
-
-function logout() {
-  token = '';
-  document.getElementById('loginScreen').style.display = 'flex';
-  document.getElementById('appScreen').style.display = 'none';
-  document.getElementById('sessionInfo').style.display = 'none';
-  document.getElementById('btnLogout').style.display = 'none';
-  document.getElementById('loginPass').value = '';
+function guardarToken() {
+  const val = document.getElementById('tokenInput').value.trim();
+  // Extraer token si pegan la URL completa
+  const match = val.match(/access_token=([^\s&]+)/);
+  const t = match ? match[1] : val;
+  if(!t) return;
+  token = t;
+  document.getElementById('tokenInputArea').classList.remove('show');
+  document.getElementById('tokenInput').value = '';
+  // Actualizar banner
+  const banner = document.getElementById('tokenBanner');
+  banner.className = 'token-banner ok';
+  document.getElementById('tokenLabel').textContent = 'Token activo';
+  document.getElementById('tokenVal').textContent = token.substring(0,10) + '...';
+  document.getElementById('btnBuscar').disabled = false;
+  // Mostrar panel de búsqueda listo
+  setState('search');
 }
 
 async function buscar(offset = 0) {
   const surname = document.getElementById('surname').value.trim();
-  if (!surname) { alert('El apellido es obligatorio'); return; }
+  if(!surname) { alert('El apellido es obligatorio'); return; }
+  if(!token) { togglePegar(); return; }
 
   currentOffset = offset;
 
@@ -389,18 +305,19 @@ async function buscar(offset = 0) {
   const sex           = document.getElementById('sex').value;
 
   let q = `q.surname=${encodeURIComponent(surname)}`;
-  if (givenName)      q += `&q.givenName=${encodeURIComponent(givenName)}`;
-  if (birthPlace)     q += `&q.birthLikePlace=${encodeURIComponent(birthPlace)}`;
-  if (yearFrom)       q += `&q.birthLikeDate.from=%2B${yearFrom}`;
-  if (yearTo)         q += `&q.birthLikeDate.to=%2B${yearTo}`;
-  if (fatherSurname)  q += `&q.fatherSurname=${encodeURIComponent(fatherSurname)}`;
-  if (motherSurname)  q += `&q.motherSurname=${encodeURIComponent(motherSurname)}`;
-  if (sex)            q += `&q.sex=${sex}`;
+  if(givenName)      q += `&q.givenName=${encodeURIComponent(givenName)}`;
+  if(birthPlace)     q += `&q.birthLikePlace=${encodeURIComponent(birthPlace)}`;
+  if(yearFrom)       q += `&q.birthLikeDate.from=%2B${yearFrom}`;
+  if(yearTo)         q += `&q.birthLikeDate.to=%2B${yearTo}`;
+  if(fatherSurname)  q += `&q.fatherSurname=${encodeURIComponent(fatherSurname)}`;
+  if(motherSurname)  q += `&q.motherSurname=${encodeURIComponent(motherSurname)}`;
+  if(sex)            q += `&q.sex=${sex}`;
   q += `&count=${PAGE_SIZE}&start=${offset}&access_token=${token}`;
 
   const url = `${FS_API}/platform/tree/search?${q}`;
-  document.getElementById('reqLog').classList.add('show');
-  document.getElementById('reqUrl').textContent = 'GET ' + url.replace(token, '***');
+  const log = document.getElementById('reqLog');
+  log.classList.add('show');
+  log.textContent = 'GET ' + url.replace(token, '***TOKEN***');
 
   setState('loading');
 
@@ -409,12 +326,20 @@ async function buscar(offset = 0) {
       headers: { 'Accept': 'application/x-gedcomx-atom+json' }
     });
 
-    if (res.status === 204) { setState('results'); renderResultados([], 0); return; }
-    if (res.status === 401) { setState('error', 'Sesión expirada', 'Tu sesión expiró. Cierra sesión e ingresa de nuevo.'); return; }
-    if (res.status === 429) { setState('error', 'Demasiadas solicitudes', 'Espera unos segundos e intenta de nuevo.'); return; }
-    if (!res.ok) {
+    if(res.status === 204) { setState('results'); renderResultados([], 0); return; }
+    if(res.status === 401) {
+      token = '';
+      document.getElementById('tokenBanner').className = 'token-banner warn';
+      document.getElementById('tokenLabel').textContent = 'Token expirado — obtén uno nuevo';
+      document.getElementById('tokenVal').textContent = '';
+      document.getElementById('btnBuscar').disabled = true;
+      setState('error', 'Token expirado', 'Haz clic en "① Obtener Token" para renovarlo.');
+      return;
+    }
+    if(res.status === 429) { setState('error','Demasiadas solicitudes','Espera unos segundos e intenta de nuevo.'); return; }
+    if(!res.ok) {
       const txt = await res.text().catch(()=>'');
-      setState('error', `Error ${res.status}`, txt.substring(0,200) || 'Error en la API.');
+      setState('error', `Error ${res.status}`, txt.substring(0,300)||'Revisa los parámetros.');
       return;
     }
 
@@ -429,20 +354,32 @@ async function buscar(offset = 0) {
 }
 
 function setState(s, t='', d='') {
-  document.getElementById('stateEmpty').style.display   = s==='empty'   ?'flex':'none';
-  document.getElementById('stateLoading').style.display = s==='loading' ?'flex':'none';
-  document.getElementById('stateError').style.display   = s==='error'   ?'flex':'none';
-  document.getElementById('stateResults').style.display = s==='results' ?'block':'none';
-  if(s==='error'){ document.getElementById('errorTitle').textContent=t; document.getElementById('errorDesc').textContent=d; }
+  const empty   = document.getElementById('stateEmpty');
+  const loading = document.getElementById('stateLoading');
+  const error   = document.getElementById('stateError');
+  const results = document.getElementById('stateResults');
+  empty.style.display   = (s==='empty'||s==='search') ? 'flex' : 'none';
+  loading.style.display = s==='loading' ? 'flex' : 'none';
+  error.style.display   = s==='error'   ? 'flex' : 'none';
+  results.style.display = s==='results' ? 'block': 'none';
+  if(s==='search') {
+    empty.querySelector('.state-icon').textContent = '📜';
+    empty.querySelector('.state-title').textContent = 'Ingresa un apellido para comenzar';
+    empty.querySelector('.state-desc').innerHTML = 'Busca nombres manuscritos en los registros históricos de FamilySearch. Puedes usar comodines: <strong style="color:var(--oro)">Tr?ub</strong> o <strong style="color:var(--oro)">Gonz*</strong>';
+  }
+  if(s==='error') {
+    document.getElementById('errorTitle').textContent = t;
+    document.getElementById('errorDesc').textContent  = d;
+  }
 }
 
 function renderResultados(entries, total) {
   const list = document.getElementById('resultsList');
-  document.getElementById('countFrom').textContent = total>0 ? currentOffset+1 : 0;
-  document.getElementById('countTo').textContent   = Math.min(currentOffset+entries.length, total);
+  document.getElementById('countFrom').textContent  = total>0 ? currentOffset+1 : 0;
+  document.getElementById('countTo').textContent    = Math.min(currentOffset+entries.length, total);
   document.getElementById('countTotal').textContent = total;
 
-  if (!total || !entries.length) {
+  if(!total || !entries.length) {
     list.innerHTML = `<div class="state-box"><div class="state-icon">🔎</div><div class="state-title">Sin resultados</div><div class="state-desc">Prueba con comodines (Gonz* en lugar de González) o amplía el rango de años.</div></div>`;
     document.getElementById('paginacion').style.display = 'none';
     return;
@@ -450,20 +387,20 @@ function renderResultados(entries, total) {
 
   list.innerHTML = entries.map(entry => {
     const p = entry.content?.gedcomx?.persons?.[0];
-    if (!p) return '';
+    if(!p) return '';
     const fullName = p.names?.[0]?.nameForms?.[0]?.fullText || 'Nombre desconocido';
-    const pid = p.id || '';
-    const facts = p.facts || [];
-    const birth = facts.find(f=>f.type?.includes('Birth'));
-    const death = facts.find(f=>f.type?.includes('Death'));
-    const bDate = birth?.date?.original||birth?.date?.formal||'';
-    const bPlace = birth?.place?.original||'';
-    const dDate = death?.date?.original||death?.date?.formal||'';
-    const dPlace = death?.place?.original||'';
-    const sexV = p.gender?.type?.split('/').pop()||'';
-    const sexL = sexV==='Male'?'♂ Masculino':sexV==='Female'?'♀ Femenino':'';
-    const score = Math.round((entry.score||0)*100);
-    const sc = score>=70?'high':score>=40?'med':'low';
+    const pid      = p.id || '';
+    const facts    = p.facts || [];
+    const birth    = facts.find(f=>f.type?.includes('Birth'));
+    const death    = facts.find(f=>f.type?.includes('Death'));
+    const bDate    = birth?.date?.original || birth?.date?.formal || '';
+    const bPlace   = birth?.place?.original || '';
+    const dDate    = death?.date?.original  || death?.date?.formal || '';
+    const dPlace   = death?.place?.original || '';
+    const sexV     = p.gender?.type?.split('/').pop() || '';
+    const sexL     = sexV==='Male' ? '♂ Masculino' : sexV==='Female' ? '♀ Femenino' : '';
+    const score    = Math.round((entry.score||0)*100);
+    const sc       = score>=70 ? 'high' : score>=40 ? 'med' : 'low';
     return `<div class="result-card">
       <div class="result-main">
         <div>
@@ -482,10 +419,10 @@ function renderResultados(entries, total) {
   }).join('');
 
   const totalPages = Math.ceil(total/PAGE_SIZE);
-  const curPage = Math.floor(currentOffset/PAGE_SIZE)+1;
-  document.getElementById('pagInfo').textContent = `Página ${curPage} de ${totalPages}`;
-  document.getElementById('btnPrev').disabled = currentOffset===0;
-  document.getElementById('btnNext').disabled = currentOffset+PAGE_SIZE>=total||currentOffset>=4980;
+  const curPage    = Math.floor(currentOffset/PAGE_SIZE)+1;
+  document.getElementById('pagInfo').textContent    = `Página ${curPage} de ${totalPages}`;
+  document.getElementById('btnPrev').disabled       = currentOffset===0;
+  document.getElementById('btnNext').disabled       = currentOffset+PAGE_SIZE>=total||currentOffset>=4980;
   document.getElementById('paginacion').style.display = totalPages>1?'flex':'none';
 }
 
@@ -497,10 +434,12 @@ function cambiarPag(dir) {
 }
 
 function limpiar() {
-  ['surname','givenName','yearFrom','yearTo','fatherSurname','motherSurname'].forEach(id=>{ document.getElementById(id).value=''; });
+  ['surname','givenName','yearFrom','yearTo','fatherSurname','motherSurname'].forEach(id=>{
+    document.getElementById(id).value='';
+  });
   document.getElementById('birthPlace').value='Chile';
   document.getElementById('sex').value='';
-  setState('empty');
+  if(token) setState('search'); else setState('empty');
   document.getElementById('reqLog').classList.remove('show');
 }
 
